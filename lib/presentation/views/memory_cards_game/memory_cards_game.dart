@@ -3,52 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:provider/provider.dart';
+import '../../../data/services/hive_services.dart';
+import '../../../state_management/providers/games_user_provider.dart';
 
 import '../../elements/game_card.dart';
 
 
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const GameScreen()),
-              ),
-              child: const Text('Play Memory Game'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("TicTacToe coming soon!")),
-                );
-              },
-              child: const Text('TicTacToe (Coming Soon)'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class GameScreen extends StatefulWidget {
-  const GameScreen({super.key});
+class MemoryCardsGame extends StatefulWidget {
+  const MemoryCardsGame({super.key});
 
   @override
-  State<GameScreen> createState() => _GameScreenState();
+  State<MemoryCardsGame> createState() => _MemoryCardsGameState();
 }
 
-class _GameScreenState extends State<GameScreen> {
+class _MemoryCardsGameState extends State<MemoryCardsGame> {
+  final String game = 'Memory Game';
+
   final List<String> emojis = ['🍎', '🎲', '🚗', '🐶', '🏀', '🎧'];
   late List<GameCard> cards;
   GameCard? firstFlipped;
@@ -107,6 +78,11 @@ class _GameScreenState extends State<GameScreen> {
         _playSound("sounds/success.mp3");
 
         if (matchedPairs == emojis.length) {
+          if (HiveFunctions.hasActivePlayer1() ) {
+            Provider
+                .of<LoadUsersGamesProvider>(context, listen: false)
+                .addWin(game );
+          }
           Future.delayed(const Duration(milliseconds: 600), _showVictoryDialog);
         }
       } else {
@@ -147,7 +123,9 @@ class _GameScreenState extends State<GameScreen> {
     final progress = matchedPairs / totalPairs;
 
     return Scaffold(
-      body: Stack(
+      body:
+
+      Stack(
         children: [
           if (bgImageUrl != null)
             Positioned.fill(
