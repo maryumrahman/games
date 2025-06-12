@@ -6,73 +6,101 @@ import '../utils/app_constants.dart';
 
 class HiveFunctions {
 
-  static final allUsersBox = Hive.box<User>(userHiveBox);
-  static final player1Box = Hive.box<User>('player1UserBox');
-  static final player2Box = Hive.box<User>('player2UserBox');
+  static final allBox = Hive.box<User>(allUserBox);
+  static final box2 = Hive.box<  User>(player1Box);
+  static final box3 = Hive.box< User>(player2Box);
 
 
-  static List<MapEntry<int, User>> getAllUsers() {
-    return (allUsersBox.toMap() as Map<int, User>).entries.toList();
-  }
-  static List<User> getAllUsersNoKey() {
-    return allUsersBox.values.cast<User>().toList();
-  }
+
+    static List<MapEntry<int, User>> getAllUsers() {
+      return allBox.toMap().entries.map((entry) => MapEntry(entry.key as int, entry.value )).toList();
+    }
 
   static Future<void> addUser(User user) async {
-    await allUsersBox.add(user);
+    await allBox.add(user);
   }
   static Future<void> deleteUser(int key) async {
-    await allUsersBox.delete(key);
+    await allBox.delete(key);
   }
   static Future<void> deleteAllUsers() async {
-    await allUsersBox.clear();
+    await allBox.clear();
   }
 
   static Future<void> updateUser(int key, User user) async {
-    await allUsersBox.put(key,user);
+    await allBox.put(key,user);
   }
 
   // Set active user
   static Future<void> setPlayer1(User user) async {
-    await player1Box.put('active', user);
+    await box2.put('active', user);
   }
 
   // Get active user
-  static User? getPlayer1() {
-    return player1Box.get('active');
+  static   User? getPlayer1() {
+    return box2.get('active');
   }
 
   // Remove active user
   static Future<void> clearPlayer1() async {
-    await player1Box.delete('active');
+    await box2.delete('active');
   }
 
   // Check if active user exists
   static bool hasActivePlayer1() {
-    return player1Box.containsKey('active');
+    return box2.containsKey('active');
   }
 
   // Set active user
-  static Future<void> setPlayer2(User user) async {
-    await player2Box.put('active', user);
+  static Future<void> setPlayer2( User user) async {
+    await box3.put('active', user);
   }
 
   // Get active user
-  static User? getPlayer2() {
-    return player2Box.get('active');
+  static   User? getPlayer2() {
+    return box3.get('active');
   }
 
   // Remove active user
   static Future<void> clearPlayer2() async {
-    await player2Box.delete('active');
+    await box3.delete('active');
   }
 
   // Check if active user exists
   static bool hasActivePlayer2() {
-    return player2Box.containsKey('active');
+    return box3.containsKey('active');
   }
 
 
+  void incrementPlayerWin( String gameName, int player ) {
+    if (player == 1 ){
+      if (HiveFunctions.hasActivePlayer1() ){
+
+        User user = HiveFunctions.getPlayer1()!;
+        user. gameWins.putIfAbsent(gameName, () => 0);
+        user.addWin(gameName);
+        // Update in Hive's Player1Box
+        HiveFunctions.setPlayer1( user );
+
+        // Update in Hive's AllUsersBox
+        final allEntry = HiveFunctions.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
+        HiveFunctions.updateUser(allEntry.key,user);
+
+      }
+    }else if(player==2) {
+      if (HiveFunctions.hasActivePlayer2() ){
+
+        User user = HiveFunctions.getPlayer2()!;
+        user. gameWins.putIfAbsent(gameName, () => 0);
+        user.addWin(gameName);
+        // Update in Hive's Player1Box
+        HiveFunctions.setPlayer2( user );
+
+        // Update in Hive's AllUsersBox
+        final allEntry = HiveFunctions.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
+        HiveFunctions.updateUser(allEntry.key,user);
+      }
+
+    }}
 
 
 

@@ -3,6 +3,7 @@ import 'package:games/presentation/views/main_screen.dart';
 import 'package:games/state_management/providers/games_user_provider.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
+import 'data/models/user.dart';
 import 'data/utils/app_constants.dart';
 
 
@@ -12,7 +13,12 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox(userHiveBox);
+
+  Hive.registerAdapter(UserAdapter());
+
+  await Hive.openBox<User>(allUserBox);
+  await Hive.openBox<User>(player1Box);
+  await Hive.openBox<User>(player2Box);
 
   runApp(
     ChangeNotifierProvider(

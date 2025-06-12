@@ -78,11 +78,8 @@ class _MemoryCardsGameState extends State<MemoryCardsGame> {
         _playSound("sounds/success.mp3");
 
         if (matchedPairs == emojis.length) {
-          if (HiveFunctions.hasActivePlayer1() ) {
-            Provider
-                .of<LoadUsersGamesProvider>(context, listen: false)
-                .addWin(game );
-          }
+          HiveFunctions ().incrementPlayerWin(game,1 );
+
           Future.delayed(const Duration(milliseconds: 600), _showVictoryDialog);
         }
       } else {

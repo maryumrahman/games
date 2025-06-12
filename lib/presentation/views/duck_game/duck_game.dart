@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../state_management/providers/games_user_provider.dart';
+import '../shared/choose_player.dart';
 
 class DuckGameScreen extends StatefulWidget {
   const DuckGameScreen({super.key});
@@ -16,6 +17,7 @@ class DuckGameScreen extends StatefulWidget {
 
 class _DuckGameScreenState extends State<DuckGameScreen> with SingleTickerProviderStateMixin {
   final String game = 'Duck Game';
+  late final int selectedPlayer;
 
   final List<Color> colors = [
     Colors.red,
@@ -44,6 +46,20 @@ class _DuckGameScreenState extends State<DuckGameScreen> with SingleTickerProvid
     )..repeat();
     _animationController.addListener(_updateDuckPositions);
     startNewLevel();
+
+    // This ensures the dialog is shown after the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      int? result = await showSelectPlayerDialog(context);
+      if (result != null) {
+        setState(() {
+          selectedPlayer = result;
+        });
+        print('Selected player: $selectedPlayer');
+      } else {
+        print('Dialog was dismissed');
+      }
+    });
+
   }
 
   @override
@@ -118,10 +134,8 @@ class _DuckGameScreenState extends State<DuckGameScreen> with SingleTickerProvid
   }
 
   void _updateWinCount() {
-    final userProvider = Provider.of<LoadUsersGamesProvider>(context, listen: false);
-    if (HiveFunctions.hasActivePlayer1() ) {
-      userProvider.addWin(game);
-    }
+   HiveFunctions ().incrementPlayerWin(game,selectedPlayer );
+
   }
 
   void showNextLevelDialog() {

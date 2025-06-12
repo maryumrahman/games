@@ -47,6 +47,7 @@ bool _isLoading=false ;
   getHiveData() {
     myHiveData = HiveFunctions.getAllUsers();
   }
+
   updatePlayers(){
     HiveFunctions.setPlayer1(_player1!.value);
     HiveFunctions.setPlayer2(_player2!.value);
@@ -74,23 +75,7 @@ bool _isLoading=false ;
 
 
 
-  void addWin( String gameName) {
-    if (HiveFunctions.hasActivePlayer1() == true){
-      User active = HiveFunctions.getPlayer1()!;
-      active.gameWins.putIfAbsent(gameName, () => 0);
-      active.addWin(gameName);
-      HiveFunctions.setPlayer1( active );
-      final entry = getUserEntryByUsername( HiveFunctions.getPlayer1()!.username ) ;
 
-      // Update in Hive
-      HiveFunctions.updateUser(entry?.key??0,active);
-
-      // Update local list
-      myHiveData = HiveFunctions.getAllUsers();
-
-
-
-  }}
 
   List<User> getUsersSortedByWins(String gameName) {
     return _myHiveData

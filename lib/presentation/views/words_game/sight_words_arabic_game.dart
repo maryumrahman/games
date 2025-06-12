@@ -122,10 +122,8 @@ class _WordsGameScreenState extends State<WordsGameScreen> with SingleTickerProv
   }
 
   void _updateWinCount() {
-    final userProvider = Provider.of<LoadUsersGamesProvider>(context, listen: false);
-    if (HiveFunctions.hasActivePlayer1() ) {
-      userProvider.addWin(game);
-    }
+    HiveFunctions ().incrementPlayerWin(game,1 );
+
   }
 
   void showNextLevelDialog() {
