@@ -2,10 +2,11 @@
 class Assets {
   Assets._();
 
-  static const String fontsPDMSSaleemQuranFontShipped = 'assets/fonts/PDMS_Saleem_QuranFont.ttf';
+  static const String fontsPDMSSaleemQuranFont = 'assets/fonts/PDMS_Saleem_QuranFont.ttf';
   static const String imagesDuck1 = 'assets/images/duck1.svg';
   static const String imagesDuck2 = 'assets/images/duck2.svg';
   static const String imagesSkyGrassBkrnd = 'assets/images/sky_grass_bkrnd.jpg';
+  static const String imagesVecteezyCartoonCuteSheep11212823 = 'assets/images/sheep.png';
   static const String soundsFlip = 'assets/sounds/flip.mp3';
   static const String soundsSuccess = 'assets/sounds/success.mp3';
 

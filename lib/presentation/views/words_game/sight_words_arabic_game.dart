@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../data/services/hive_services.dart';
+import '../../../services/hive_services.dart';
 import '../../../state_management/providers/games_user_provider.dart';
 
 class WordsGameScreen extends StatefulWidget {
@@ -122,7 +119,7 @@ class _WordsGameScreenState extends State<WordsGameScreen> with SingleTickerProv
   }
 
   void _updateWinCount() {
-    HiveFunctions ().incrementPlayerWin(game,1 );
+    HiveServices ().incrementPlayerWin(game,1 );
 
   }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:games/presentation/views/main_screen.dart';
+import 'package:games/presentation/views/fresh_home_screen.dart';
 import 'package:games/state_management/providers/games_user_provider.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'data/models/user.dart';
-import 'data/utils/app_constants.dart';
+import 'infrastructure/utils/app_strings.dart';
+import 'models/user.dart';
 
 
 
@@ -16,9 +16,9 @@ Future<void> main() async {
 
   Hive.registerAdapter(UserAdapter());
 
-  await Hive.openBox<User>(allUserBox);
-  await Hive.openBox<User>(player1Box);
-  await Hive.openBox<User>(player2Box);
+  await Hive.openBox<User>(AppStrings().allUserBox);
+  await Hive.openBox<User>(AppStrings().player1Box);
+  await Hive.openBox<User>(AppStrings().player2Box);
 
   runApp(
     ChangeNotifierProvider(
@@ -41,7 +41,8 @@ class GamesApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: const BottomNavScreen(),
+      // home: const BottomNavScreen(),
+      home: const FreshHomeScreen(),
     );
   }
 }

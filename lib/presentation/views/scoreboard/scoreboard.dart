@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../data/models/user.dart';
+import '../../../models/user.dart';
 import '../../../state_management/providers/games_user_provider.dart';
 
 class ScoreboardScreen extends StatelessWidget {

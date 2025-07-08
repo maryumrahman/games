@@ -1,13 +1,10 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:provider/provider.dart';
-import '../../../data/services/hive_services.dart';
-import '../../../state_management/providers/games_user_provider.dart';
-
+import '../../../services/hive_services.dart';
 import '../../elements/game_card.dart';
+
 
 
 class MemoryCardsGame extends StatefulWidget {
@@ -78,7 +75,7 @@ class _MemoryCardsGameState extends State<MemoryCardsGame> {
         _playSound("sounds/success.mp3");
 
         if (matchedPairs == emojis.length) {
-          HiveFunctions ().incrementPlayerWin(game,1 );
+          HiveServices ().incrementPlayerWin(game,1 );
 
           Future.delayed(const Duration(milliseconds: 600), _showVictoryDialog);
         }

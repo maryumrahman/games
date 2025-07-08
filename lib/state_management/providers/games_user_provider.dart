@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
-import '../../data/models/user.dart';
-import '../../data/services/hive_services.dart';
+import '../../models/user.dart';
+import '../../services/hive_services.dart';
 
 
 
@@ -45,20 +45,20 @@ bool _isLoading=false ;
 
 
   getHiveData() {
-    myHiveData = HiveFunctions.getAllUsers();
+    myHiveData = HiveServices.getAllUsers();
   }
 
   updatePlayers(){
-    HiveFunctions.setPlayer1(_player1!.value);
-    HiveFunctions.setPlayer2(_player2!.value);
+    HiveServices.setPlayer1(_player1!.value);
+    HiveServices.setPlayer2(_player2!.value);
   }
 
 
   void addUser(String username) {
 
     if (!_myHiveData.any((user) => user.value.username == username)) {
-      HiveFunctions.addUser(User(username: username, gameWins: {}));
-      myHiveData=HiveFunctions.getAllUsers();
+      HiveServices.addUser(User(username: username, gameWins: {}));
+      myHiveData=HiveServices.getAllUsers();
 
     }
   }

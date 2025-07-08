@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:games/data/services/hive_services.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../state_management/providers/games_user_provider.dart';
+import '../../../services/hive_services.dart';
 import '../shared/choose_player.dart';
 
 class DuckGameScreen extends StatefulWidget {
@@ -134,7 +132,7 @@ class _DuckGameScreenState extends State<DuckGameScreen> with SingleTickerProvid
   }
 
   void _updateWinCount() {
-   HiveFunctions ().incrementPlayerWin(game,selectedPlayer );
+   HiveServices ().incrementPlayerWin(game,selectedPlayer );
 
   }
 

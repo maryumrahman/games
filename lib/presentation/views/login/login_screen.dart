@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:games/data/services/hive_services.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import '../../../data/models/user.dart';
+import '../../../models/user.dart';
+import '../../../services/hive_services.dart';
 import '../../../state_management/providers/games_user_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -84,12 +83,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         value:
 
 
-                        HiveFunctions.hasActivePlayer1() == false
+                        HiveServices.hasActivePlayer1() == false
                             ? null
                             : provider.myHiveData.firstWhere((MapEntry entry) {
                                 return
                                   entry.value.username ==
-                                    HiveFunctions.getPlayer1()!.username;
+                                    HiveServices.getPlayer1()!.username;
                               }),
                         decoration: InputDecoration(
                           labelText: 'Select Username',
@@ -106,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       )
                     : DropdownButtonFormField<MapEntry<int, User>?>(
-                        value: HiveFunctions.hasActivePlayer2() == false
+                        value: HiveServices.hasActivePlayer2() == false
                             ? null
                             : provider.myHiveData.firstWhere((MapEntry entry) {
                                 return entry.value.username ==
-                                    HiveFunctions.getPlayer2()!.username;
+                                    HiveServices.getPlayer2()!.username;
                               }),
                         decoration: InputDecoration(
                           labelText: 'Select Username',

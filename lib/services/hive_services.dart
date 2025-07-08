@@ -1,14 +1,15 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import '../infrastructure/utils/app_strings.dart';
 import '../models/user.dart';
-import '../utils/app_constants.dart';
 
 
 
-class HiveFunctions {
+class HiveServices {
 
-  static final allBox = Hive.box<User>(allUserBox);
-  static final box2 = Hive.box<  User>(player1Box);
-  static final box3 = Hive.box< User>(player2Box);
+
+  static final allBox = Hive.box<User>(AppStrings().allUserBox);
+  static final box2 = Hive.box<  User>(AppStrings().player1Box);
+  static final box3 = Hive.box< User>(AppStrings().player2Box);
 
 
 
@@ -73,31 +74,31 @@ class HiveFunctions {
 
   void incrementPlayerWin( String gameName, int player ) {
     if (player == 1 ){
-      if (HiveFunctions.hasActivePlayer1() ){
+      if (HiveServices.hasActivePlayer1() ){
 
-        User user = HiveFunctions.getPlayer1()!;
+        User user = HiveServices.getPlayer1()!;
         user. gameWins.putIfAbsent(gameName, () => 0);
         user.addWin(gameName);
         // Update in Hive's Player1Box
-        HiveFunctions.setPlayer1( user );
+        HiveServices.setPlayer1( user );
 
         // Update in Hive's AllUsersBox
-        final allEntry = HiveFunctions.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
-        HiveFunctions.updateUser(allEntry.key,user);
+        final allEntry = HiveServices.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
+        HiveServices.updateUser(allEntry.key,user);
 
       }
     }else if(player==2) {
-      if (HiveFunctions.hasActivePlayer2() ){
+      if (HiveServices.hasActivePlayer2() ){
 
-        User user = HiveFunctions.getPlayer2()!;
+        User user = HiveServices.getPlayer2()!;
         user. gameWins.putIfAbsent(gameName, () => 0);
         user.addWin(gameName);
         // Update in Hive's Player1Box
-        HiveFunctions.setPlayer2( user );
+        HiveServices.setPlayer2( user );
 
         // Update in Hive's AllUsersBox
-        final allEntry = HiveFunctions.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
-        HiveFunctions.updateUser(allEntry.key,user);
+        final allEntry = HiveServices.getAllUsers().firstWhere((entry)=> entry.value.username==user. username);
+        HiveServices.updateUser(allEntry.key,user);
       }
 
     }}
